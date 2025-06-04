@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Geografi dengan Farid Smanda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <video id="backgroundVideo" autoplay loop muted>
+        <source src="assets/back.mp4" type="video/mp4">  <!-- Jalur diperbarui -->
+        Your browser does not support the video tag.
+    </video>
+
+    <div id="chat-container">
+        <video id="videoDisplay" controls autoplay>
+            <source id="videoSource" src="assets/videosatu.mp4" type="video/mp4">  <!-- Jalur diperbarui -->
+            Video tidak tersedia.
+        </video>
+        <div id="chatbox">
+            <p id="botStart">Hai, saya Farid AI. Saya siap berusaha membantu Anda menjawab pertanyaan mengenai geografi umum dan kalkulasi matematika sederhana.</p>
+            <p>Terima kasih chat GPT dan Google Chrome karena telah mensupport Farid.ai</p>
+        </div>
+        
+        <input id="userInput" type="text" placeholder="Tulis pertanyaan di sini..." onkeydown="if (event.key === 'Enter') { getResponse(); }">
+        <button onclick="getResponse()">
+            <i class="fas fa-arrow-up"></i> <!-- Ikon anak panah -->
+        </button>
+        
+        <button id="micButton" onclick="toggleMic()">
+            <i id="micIcon" class="fas fa-microphone"></i>
+        </button>
+
+        <!-- Area untuk audio -->
+        <audio id="defaultAudio" src="assets/default.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="afrikaUtaraAudio" src="assets/afrika_utara.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="afrikaSelatanAudio" src="assets/afrika_selatan.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="afrikaBaratAudio" src="assets/afrika_barat.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="afrikaTimurAudio" src="assets/afrika_timur.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="afrikaTengahAudio" src="assets/afrika_tengah.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="asiaTengahAudio" src="assets/asia_tengah.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="asiaTenggaraAudio" src="assets/asia_tenggara.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="asiaTimurAudio" src="assets/asia_timur.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="asiaBaratAudio" src="assets/asia_barat.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="asiaSelatanAudio" src="assets/asia_selatan.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="eropaTimurAudio" src="assets/eropa_timur.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="eropaBaratAudio" src="assets/eropa_barat.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="eropaUtaraAudio" src="assets/eropa_utara.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="amerikaUtaraAudio" src="assets/amerika_utara.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="amerikaTengahAudio" src="assets/amerika_tengah.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="amerikaSelatanAudio" src="assets/amerika_selatan.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="australiaAudio" src="assets/australia.mp3"></audio>  <!-- Jalur diperbarui -->
+        <audio id="antartikaAudio" src="assets/antartika.mp3"></audio>  <!-- Jalur diperbarui -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

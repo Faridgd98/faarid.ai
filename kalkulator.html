@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(120deg, #6a11cb, #2575fc);
+            color: white;
+        }
+
+        .calculator {
+            background: #fff;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
+
+        .display {
+            width: 100%;
+            height: 70px;
+            font-size: 1.8rem;
+            text-align: right;
+            padding: 10px;
+            margin-bottom: 25px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            background: #f9f9f9;
+            outline: none;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .button {
+            height: 60px;
+            font-size: 1.2rem;
+            background: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .button:hover {
+            background: #1b5fc8;
+            transform: scale(1.05);
+        }
+
+        .button.clear {
+            background: #ff4d4d;
+        }
+
+        .button.clear:hover {
+            background: #cc0000;
+        }
+
+        .button.backspace {
+            background: #ffa500;
+        }
+
+        .button.backspace:hover {
+            background: #cc8400;
+        }
+
+        .button.toggle {
+            background: #32cd32;
+        }
+
+        .button.toggle:hover {
+            background: #28a428;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" class="display" disabled>
+        <div class="buttons">
+            <button class="button" onclick="appendValue('(')">(</button>
+            <button class="button" onclick="appendValue(')')">)</button>
+            <button class="button" onclick="appendValue('Math.sqrt(')">√</button>
+            <button class="button" onclick="appendValue('**')">^</button>
+            <button class="button clear" onclick="clearDisplay()">C</button>
+
+            <button class="button" onclick="appendValue('7')">7</button>
+            <button class="button" onclick="appendValue('8')">8</button>
+            <button class="button" onclick="appendValue('9')">9</button>
+            <button class="button" onclick="appendValue('/')">/</button>
+            <button class="button backspace" onclick="backspace()">⌫</button>
+
+            <button class="button" onclick="appendValue('4')">4</button>
+            <button class="button" onclick="appendValue('5')">5</button>
+            <button class="button" onclick="appendValue('6')">6</button>
+            <button class="button" onclick="appendValue('*')">*</button>
+            <button class="button" onclick="appendTrigFunction('sin')">sin</button>
+
+            <button class="button" onclick="appendValue('1')">1</button>
+            <button class="button" onclick="appendValue('2')">2</button>
+            <button class="button" onclick="appendValue('3')">3</button>
+            <button class="button" onclick="appendValue('-')">-</button>
+            <button class="button" onclick="appendTrigFunction('cos')">cos</button>
+
+            <button class="button" onclick="appendValue('0')">0</button>
+            <button class="button" onclick="appendValue('.')">.</button>
+            <button class="button" onclick="calculate()">=</button>
+            <button class="button" onclick="appendValue('+')">+</button>
+            <button class="button" onclick="appendTrigFunction('tan')">tan</button>
+
+            <button class="button" onclick="appendValue('Math.log(')">log</button>
+            <button class="button toggle" style="grid-column: span 4;" onclick="toggleDegreeRadian()" id="toggleButton">Mode: Rad</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        let isDegreeMode = false;
+
+        function appendValue(value) {
+            display.value += value;
+        }
+
+        function appendTrigFunction(func) {
+            // Menambahkan fungsi trigonometri dalam mode derajat atau radian
+            if (isDegreeMode) {
+                display.value += `${func}(degToRad(`;
+            } else {
+                display.value += `${func}(`;
+            }
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function backspace() {
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculate() {
+            try {
+                // Mengganti degToRad di dalam ekspresi
+                const expression = display.value.replace(/degToRad\((\d+(?:\.\d+)?)\)/g, (_, deg) => degToRad(parseFloat(deg)));
+                // Evaluasi ekspresi dan tampilkan hasil
+                const result = eval(expression);
+                display.value = parseFloat(result.toFixed(10)); // Pembulatan ke 10 desimal
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+
+        function toggleDegreeRadian() {
+            isDegreeMode = !isDegreeMode;
+            const toggleButton = document.getElementById('toggleButton');
+            toggleButton.textContent = isDegreeMode ? 'Mode: Deg' : 'Mode: Rad';
+        }
+
+        function degToRad(degrees) {
+            return degrees * (Math.PI / 180);
+        }
+    </script>
+</body>
+</html>

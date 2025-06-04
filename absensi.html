@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>Absensi Siswa dengan Login Email</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+  }
+  #loginSection {
+    margin-bottom: 20px;
+  }
+  input[type="email"] {
+    padding: 8px;
+    width: 70%;
+    font-size: 1rem;
+  }
+  button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  .hadir {
+    color: green;
+    font-weight: bold;
+  }
+  .tidak-hadir {
+    color: red;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+  <h2>Absensi Harian</h2>
+  <div id="loginSection">
+    <input type="email" id="emailInput" placeholder="Masukkan email siswa...">
+    <button onclick="login()">Login</button>
+    <p id="loginMsg"></p>
+  </div>
+  <div id="absensiSection" style="display:none">
+    <table>
+      <thead>
+        <tr><th>Nama</th><th>Status</th></tr>
+      </thead>
+      <tbody id="absensiTabel"></tbody>
+    </table>
+    <button id="logoutBtn" onclick="logout()">Logout</button>
+  </div>
+
+<script>
+  const daftarSiswa = {
+    "faridmhmhmh@gmail.com": "Farid",
+    "fikri123@gmail.com": "Fikri"
+  };
+
+  const today = new Date().toLocaleDateString();
+  let absensiData = JSON.parse(localStorage.getItem("absensiData")) || {
+    date: today,
+    data: {}
+  };
+
+  // Reset jika tanggal data berbeda dengan hari ini
+  if (absensiData.date !== today) {
+    absensiData = {
+      date: today,
+      data: {}
+    };
+    localStorage.setItem("absensiData", JSON.stringify(absensiData));
+  }
+
+  const savedEmail = localStorage.getItem("loggedInEmail");
+  if (savedEmail && daftarSiswa[savedEmail]) {
+    tampilkanAbsensi();
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("absensiSection").style.display = "block";
+  }
+
+  function login() {
+    const email = document.getElementById("emailInput").value.trim();
+    const username = daftarSiswa[email];
+
+    if (username) {
+      absensiData.data[username] = "Hadir";
+      localStorage.setItem("absensiData", JSON.stringify(absensiData));
+      localStorage.setItem("loggedInEmail", email);
+      document.getElementById("loginSection").style.display = "none";
+      tampilkanAbsensi();
+    } else {
+      document.getElementById("loginMsg").textContent = "Email tidak terdaftar.";
+    }
+  }
+
+  function tampilkanAbsensi() {
+    document.getElementById("absensiSection").style.display = "block";
+    const tbody = document.getElementById("absensiTabel");
+    tbody.innerHTML = "";
+
+    Object.values(daftarSiswa).forEach(nama => {
+      const tr = document.createElement("tr");
+      const tdNama = document.createElement("td");
+      tdNama.textContent = nama;
+      const tdStatus = document.createElement("td");
+      tdStatus.textContent = absensiData.data[nama] || "Tidak Hadir";
+      tdStatus.className = absensiData.data[nama] === "Hadir" ? "hadir" : "tidak-hadir";
+      tr.appendChild(tdNama);
+      tr.appendChild(tdStatus);
+      tbody.appendChild(tr);
+    });
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedInEmail");
+    location.reload();
+  }
+</script>
+</body>
+</html>

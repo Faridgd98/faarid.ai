@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background-size: cover;
+            background-position: center;
+        }
+        ul { list-style: none; padding: 0; }
+        li { 
+            background: #eee; padding: 10px; margin: 5px; 
+            cursor: pointer; display: flex; 
+            justify-content: space-between;
+        }
+        .done { text-decoration: line-through; color: gray; }
+        button { margin: 5px; padding: 5px 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="Tambahkan tugas">
+    <button onclick="addTask()">Tambah</button>
+    <button onclick="clearTasks()">Hapus Semua</button>
+    <input type="file" id="bgUpload" accept="image/jpeg" onchange="setBackground(event)">
+    <ul id="taskList"></ul>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", loadTasks);
+
+        function addTask() {
+            let input = document.getElementById("taskInput");
+            let task = input.value.trim();
+            if (task === "") return;
+
+            let li = document.createElement("li");
+            li.textContent = task;
+            li.onclick = () => toggleDone(li);
+
+            let deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "X";
+            deleteBtn.onclick = (e) => {
+                e.stopPropagation();
+                li.remove();
+                saveTask();
+            };
+
+            li.appendChild(deleteBtn);
+            document.getElementById("taskList").appendChild(li);
+
+            saveTask();
+            input.value = "";
+        }
+
+        function toggleDone(item) {
+            item.classList.toggle("done");
+            saveTask();
+        }
+
+        function saveTask() {
+            let tasks = [];
+            document.querySelectorAll("#taskList li").forEach(li => {
+                tasks.push({ text: li.childNodes[0].nodeValue, done: li.classList.contains("done") });
+            });
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function loadTasks() {
+            let savedTasks = localStorage.getItem("tasks");
+            if (!savedTasks) return;
+            
+            JSON.parse(savedTasks).forEach(task => {
+                let li = document.createElement("li");
+                li.textContent = task.text;
+                if (task.done) li.classList.add("done");
+                li.onclick = () => toggleDone(li);
+
+                let deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "X";
+                deleteBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    li.remove();
+                    saveTask();
+                };
+
+                li.appendChild(deleteBtn);
+                document.getElementById("taskList").appendChild(li);
+            });
+
+            // Cek apakah ada background tersimpan
+            let bg = localStorage.getItem("background");
+            if (bg) document.body.style.backgroundImage = `url(${bg})`;
+        }
+
+        function clearTasks() {
+            document.getElementById("taskList").innerHTML = "";
+            localStorage.removeItem("tasks");
+        }
+
+        function setBackground(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let imageUrl = e.target.result;
+                document.body.style.backgroundImage = `url(${imageUrl})`;
+                localStorage.setItem("background", imageUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+
+</body>
+</html>
+x

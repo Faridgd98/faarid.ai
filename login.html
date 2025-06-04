@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Absensi</title>
+</head>
+<body>
+  <h2>Login Absensi Siswa</h2>
+  <form id="loginForm">
+    <label for="email">Masukkan Gmail Anda:</label><br/>
+    <input type="email" id="email" required placeholder="example@gmail.com" /><br/><br/>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      if (!email.endsWith('@gmail.com')) {
+        alert('Harap gunakan alamat Gmail.');
+        return;
+      }
+      // Simpan user di localStorage
+      localStorage.setItem('absen_user', email);
+      // Redirect ke halaman absensi
+      window.location.href = 'absensi.html';
+    });
+  </script>
+</body>
+</html>
