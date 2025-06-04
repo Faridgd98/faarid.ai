@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Teks & Gambar ke Biner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+        }
+        textarea {
+            width: 90%;
+            height: 120px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background: #ff8c00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #e07b00;
+        }
+        input[type="file"] {
+            margin: 10px;
+        }
+        img {
+            max-width: 300px;
+            margin-top: 10px;
+            display: none;
+        }
+        a#downloadLink {
+            display: none;
+            margin-top: 10px;
+            font-size: 16px;
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Konversi Teks &lt;-&gt; Biner + Gambar</h2>
+
+    <!-- TEKS -->
+    <textarea id="inputText" placeholder="Masukkan teks atau biner..."></textarea><br>
+    <button onclick="convertToBinary()">Teks ke Biner</button>
+    <button onclick="convertToText()">Biner ke Teks</button><br><br>
+
+    <!-- GAMBAR -->
+    <input type="file" accept="image/*" id="imageInput"><br>
+    <button onclick="imageToBinary()">Gambar ke Biner</button>
+    <button onclick="binaryToImage()">Biner ke Gambar</button>
+    <button onclick="copyBinary()">Salin Biner</button><br>
+
+    <textarea id="outputText" readonly placeholder="Hasil biner akan muncul di sini..."></textarea><br>
+    <img id="resultImage" alt="Hasil gambar dari biner">
+    <br>
+    <a id="downloadLink" download="hasil-gambar.png">⬇️ Download Gambar</a>
+
+    <script>
+        // Teks ke biner
+        function convertToBinary() {
+            let text = document.getElementById("inputText").value;
+            let binary = text.split('').map(char =>
+                char.charCodeAt(0).toString(2).padStart(8, '0')
+            ).join(' ');
+            document.getElementById("outputText").value = binary;
+        }
+
+        // Biner ke teks
+        function convertToText() {
+            let binary = document.getElementById("inputText").value.trim();
+            let text = binary.split(' ').map(bin =>
+                String.fromCharCode(parseInt(bin, 2))
+            ).join('');
+            document.getElementById("outputText").value = text;
+        }
+
+        // Gambar ke biner asli
+        function imageToBinary() {
+            const file = document.getElementById('imageInput').files[0];
+            if (!file) return alert("Pilih gambar dulu!");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const arrayBuffer = e.target.result;
+                const bytes = new Uint8Array(arrayBuffer);
+                const binaryString = [...bytes].map(byte =>
+                    byte.toString(2).padStart(8, '0')
+                ).join(' ');
+                document.getElementById("outputText").value = binaryString;
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Biner ke gambar
+        function binaryToImage() {
+            const binaryString = document.getElementById('inputText').value.trim();
+            if (!binaryString) return alert("Masukkan biner dulu!");
+
+            try {
+                const byteArray = binaryString.split(/\s+/).map(b => parseInt(b, 2));
+                const uint8Array = new Uint8Array(byteArray);
+                const blob = new Blob([uint8Array], { type: 'image/png' }); // default png
+
+                const url = URL.createObjectURL(blob);
+                const img = document.getElementById('resultImage');
+                img.src = url;
+                img.style.display = "block";
+
+                // Buat tautan download
+                const downloadLink = document.getElementById('downloadLink');
+                downloadLink.href = url;
+                downloadLink.style.display = "inline-block";
+            } catch (err) {
+                alert("Gagal mengonversi biner ke gambar. Pastikan binernya valid.");
+            }
+        }
+
+        // Salin hasil biner
+        function copyBinary() {
+            const textarea = document.getElementById('outputText');
+            textarea.select();
+            textarea.setSelectionRange(0, 999999);
+            document.execCommand("copy");
+            alert("Biner berhasil disalin!");
+        }
+    </script>
+</body>
+</html>

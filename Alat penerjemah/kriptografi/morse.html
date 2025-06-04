@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enkripsi & Dekripsi Sandi Morse</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin-bottom: 10px;
+            font-size: 40px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background: #ff8c00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #e07b00;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enkripsi & Dekripsi Sandi Morse by Farid + Suara + Telegraf</h2>
+
+    <textarea id="inputText" placeholder="Masukkan teks atau kode Morse..."></textarea><br>
+
+    <button onclick="encryptMorse()">Enkripsi ke Morse</button>
+    <button onclick="decryptMorse()">Dekripsi ke Teks</button>
+    <button onclick="playMorseSound()">Putar Suara Morse</button>
+    <button id="telegraphButton">Telegraf: Tahan untuk Beep</button>
+
+    <h3>Hasil:</h3>
+    <textarea id="outputText" readonly></textarea>
+
+    <script>
+        const morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
+            'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
+            'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
+            'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+            'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--', 'Z': '--..',
+            '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-',
+            '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.',
+            ' ': '/'
+        };
+
+        const reverseMorseCode = Object.fromEntries(Object.entries(morseCode).map(([k, v]) => [v, k]));
+
+        function encryptMorse() {
+            let text = document.getElementById("inputText").value.toUpperCase();
+            let morse = text.split('').map(char => morseCode[char] || '').join(' ');
+            document.getElementById("outputText").value = morse;
+        }
+
+        function decryptMorse() {
+            let morse = document.getElementById("inputText").value.trim();
+            let text = morse.split(' ').map(code => reverseMorseCode[code] || '').join('');
+            document.getElementById("outputText").value = text;
+        }
+
+        function playMorseSound() {
+            const morse = document.getElementById("outputText").value.trim();
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            let time = context.currentTime;
+
+            morse.split('').forEach(symbol => {
+                if (symbol === '.') {
+                    beep(context, time, 0.1);
+                    time += 0.2;
+                } else if (symbol === '-') {
+                    beep(context, time, 0.3);
+                    time += 0.4;
+                } else if (symbol === ' ') {
+                    time += 0.2;
+                } else if (symbol === '/') {
+                    time += 0.6;
+                }
+            });
+        }
+
+        function beep(context, startTime, duration) {
+            const oscillator = context.createOscillator();
+            const gainNode = context.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 700;
+            oscillator.connect(gainNode);
+            gainNode.connect(context.destination);
+            oscillator.start(startTime);
+            oscillator.stop(startTime + duration);
+        }
+
+        // Telegraf Mode
+        const telegraphButton = document.getElementById("telegraphButton");
+        let telegraphStart;
+        let telegraphContext;
+        let oscillator;
+
+        telegraphButton.addEventListener('mousedown', () => {
+            telegraphContext = new (window.AudioContext || window.webkitAudioContext)();
+            oscillator = telegraphContext.createOscillator();
+            const gainNode = telegraphContext.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 700;
+            oscillator.connect(gainNode);
+            gainNode.connect(telegraphContext.destination);
+            oscillator.start();
+            telegraphStart = Date.now();
+        });
+
+        telegraphButton.addEventListener('mouseup', () => {
+            oscillator.stop();
+            const duration = Date.now() - telegraphStart;
+            const input = document.getElementById("inputText");
+            const symbol = duration < 300 ? '.' : '-';
+
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const text = input.value;
+            input.value = text.slice(0, start) + symbol + text.slice(end);
+            input.selectionStart = input.selectionEnd = start + 1;
+
+            input.focus();
+        });
+    </script>
+</body>
+</html>
+
+
+<!-- Sebagian kode ini dibuat dengan bantuan ChatGPT, dan sebagian telah dimodifikasi oleh saya FARID MH pada April 2025 untuk mendesain serta menyesuaikan kebutuhan tugas -->

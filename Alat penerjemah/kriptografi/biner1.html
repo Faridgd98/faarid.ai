@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Gambar ↔ Biner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+        }
+        textarea {
+            width: 90%;
+            height: 120px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: orange;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: darkorange;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 300px;
+            display: none;
+        }
+        a#downloadLink {
+            display: none;
+            margin-top: 10px;
+            font-size: 16px;
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Enkripsi Gambar ↔ Biner</h2>
+
+    <input type="file" id="imageInput" accept="image/*"><br>
+    <button onclick="imageToBinary()">Gambar ke Biner</button>
+    <button onclick="binaryToImage()">Biner ke Gambar</button>
+    <button onclick="copyBinary()">Salin Biner</button><br>
+
+    <textarea id="binaryArea" placeholder="Hasil biner atau input biner di sini..."></textarea><br>
+    <img id="outputImage" alt="Hasil Gambar">
+    <br>
+    <a id="downloadLink" download="hasil-gambar.png">⬇️ Download Gambar</a>
+
+    <script>
+        // Gambar ke biner
+        function imageToBinary() {
+            const file = document.getElementById('imageInput').files[0];
+            if (!file) return alert("Pilih gambar dulu!");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const arrayBuffer = e.target.result;
+                const bytes = new Uint8Array(arrayBuffer);
+                const binaryString = [...bytes].map(byte =>
+                    byte.toString(2).padStart(8, '0')
+                ).join(' ');
+                document.getElementById('binaryArea').value = binaryString;
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Biner ke gambar
+        function binaryToImage() {
+            const binaryString = document.getElementById('binaryArea').value.trim();
+            if (!binaryString) return alert("Masukkan biner dulu!");
+
+            const byteArray = binaryString.split(/\s+/).map(b => parseInt(b, 2));
+            const uint8Array = new Uint8Array(byteArray);
+            const blob = new Blob([uint8Array], { type: 'image/png' });
+
+            const url = URL.createObjectURL(blob);
+
+            // Tampilkan gambar
+            const img = document.getElementById('outputImage');
+            img.src = url;
+            img.style.display = "block";
+
+            // Siapkan tombol download
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = url;
+            downloadLink.style.display = "inline-block";
+        }
+
+        // Salin biner
+        function copyBinary() {
+            const textarea = document.getElementById('binaryArea');
+            textarea.select();
+            textarea.setSelectionRange(0, 999999);
+            document.execCommand("copy");
+            alert("Biner berhasil disalin!");
+        }
+    </script>
+
+</body>
+</html>

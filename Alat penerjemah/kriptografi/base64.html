@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Converter + Gambar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background: linear-gradient(to right, #0d045c, #0d045c);
+            color: white;
+        }
+        textarea {
+            width: 90%;
+            height: 120px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background: #52880b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0e3103;
+        }
+        input[type="file"] {
+            margin-top: 10px;
+        }
+        img {
+            margin-top: 10px;
+            max-width: 300px;
+            display: none;
+        }
+        a#downloadLink {
+            display: none;
+            color: #90ee90;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Konverter Base64 by Farid</h2>
+
+    <!-- Teks -->
+    <textarea id="inputText" placeholder="Masukkan teks atau Base64..."></textarea><br>
+    <button onclick="encodeBase64()">Teks ➜ Base64</button>
+    <button onclick="decodeBase64()">Base64 ➜ Teks</button><br><br>
+
+    <!-- Gambar -->
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="imageToBase64()">Gambar ➜ Base64</button>
+    <button onclick="base64ToImage()">Base64 ➜ Gambar</button>
+    <button onclick="copyBase64()">Salin Base64</button><br>
+
+    <!-- Hasil -->
+    <textarea id="outputText" readonly placeholder="Hasil Base64 akan muncul di sini..."></textarea><br>
+    <img id="resultImage" alt="Hasil Gambar"><br>
+    <a id="downloadLink" download="gambar_dari_base64.png">⬇️ Download Gambar</a>
+
+    <script>
+        // Encode teks ke Base64
+        function encodeBase64() {
+            const text = document.getElementById("inputText").value;
+            const encoded = btoa(unescape(encodeURIComponent(text)));
+            document.getElementById("outputText").value = encoded;
+        }
+
+        // Decode Base64 ke teks
+        function decodeBase64() {
+            try {
+                const encoded = document.getElementById("inputText").value;
+                const decoded = decodeURIComponent(escape(atob(encoded)));
+                document.getElementById("outputText").value = decoded;
+            } catch (e) {
+                alert("Kode Base64 tidak valid!");
+            }
+        }
+
+        // Gambar ke Base64
+        function imageToBase64() {
+            const file = document.getElementById("imageInput").files[0];
+            if (!file) return alert("Pilih gambar terlebih dahulu.");
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("outputText").value = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Base64 ke gambar
+        function base64ToImage() {
+            const base64 = document.getElementById("inputText").value.trim();
+            if (!base64.startsWith("data:image")) {
+                return alert("Masukkan Base64 gambar yang valid.");
+            }
+
+            const img = document.getElementById("resultImage");
+            img.src = base64;
+            img.style.display = "block";
+
+            const downloadLink = document.getElementById("downloadLink");
+            downloadLink.href = base64;
+            downloadLink.style.display = "inline-block";
+        }
+
+        // Salin hasil Base64
+        function copyBase64() {
+            const output = document.getElementById("outputText");
+            output.select();
+            output.setSelectionRange(0, 999999);
+            document.execCommand("copy");
+            alert("Base64 berhasil disalin!");
+        }
+    </script>
+</body>
+</html>

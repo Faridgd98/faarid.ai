@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enkripsi & Dekripsi: Barcode / QR Code</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #3a8fd3, #9b59b6);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            text-align: center;
+            width: 350px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            transition: border 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #3a8fd3;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            background: #3a8fd3;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #2d76b3;
+        }
+
+        svg {
+            width: 100%;
+            height: 100px;
+        }
+
+        #qrcode {
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f3f3f3;
+            border-radius: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Enkripsi & Dekripsi Kode</h2>
+
+    <label for="textInput">Masukkan Teks:</label>
+    <input type="text" id="textInput" placeholder="contoh: https://youtu.be/...">
+
+    <label for="modeSelect">Mode:</label>
+    <select id="modeSelect">
+        <option value="normal">Normal (Teks asli)</option>
+        <option value="encrypted">Enkripsi (Base64)</option>
+    </select>
+
+    <label for="codeType">Tipe Kode:</label>
+    <select id="codeType">
+        <option value="barcode">Barcode (CODE128)</option>
+        <option value="qrcode">QR Code</option>
+    </select>
+
+    <button onclick="generateCode()">Buat Kode</button>
+
+    <div id="barcode" style="display:none;"></div>
+    <div id="qrcode" style="display:none;"></div>
+
+    <label for="encodedInput">Kode Output:</label>
+    <input type="text" id="encodedInput" readonly>
+
+    <button onclick="decodeText()">Dekripsi</button>
+
+    <div class="output">
+        Hasil Dekripsi: <span id="decodedText">-</span>
+    </div>
+</div>
+
+<script>
+    let qr;
+
+    function generateCode() {
+        let text = document.getElementById("textInput").value.trim();
+        let mode = document.getElementById("modeSelect").value;
+        let type = document.getElementById("codeType").value;
+
+        if (!text) {
+            alert("Masukkan teks terlebih dahulu!");
+            return;
+        }
+
+        let outputText = (mode === "encrypted") ? btoa(text) : text;
+        document.getElementById("encodedInput").value = outputText;
+
+        document.getElementById("barcode").style.display = "none";
+        document.getElementById("qrcode").style.display = "none";
+
+        if (type === "barcode") {
+            document.getElementById("barcode").style.display = "block";
+            document.getElementById("barcode").innerHTML = "";
+            let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("id", "barcodeSVG");
+            document.getElementById("barcode").appendChild(svg);
+            JsBarcode("#barcodeSVG", outputText, { format: "CODE128" });
+        } else if (type === "qrcode") {
+            document.getElementById("qrcode").style.display = "block";
+            if (qr) qr.clear();
+            qr = new QRCode(document.getElementById("qrcode"), {
+                text: outputText,
+                width: 200,
+                height: 200
+            });
+        }
+    }
+
+    function decodeText() {
+        let input = document.getElementById("encodedInput").value.trim();
+        try {
+            let decoded = atob(input);
+            document.getElementById("decodedText").innerText = decoded;
+        } catch (e) {
+            document.getElementById("decodedText").innerText = "Bukan data terenkripsi atau salah format.";
+        }
+    }
+</script>
+
+</body>
+</html>
+
+<!-- Sebagian kode ini dibuat dengan bantuan ChatGPT, dan sebagian telah dimodifikasi oleh saya FARID MH pada April 2025 untuk mendesain serta menyesuaikan kebutuhan tugas -->

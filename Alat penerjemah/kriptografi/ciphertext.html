@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farid Chiper Text</title>
+    <style>
+        /* Gaya dasar untuk halaman */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2d2f31, #000000);
+            color: #2d3436;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        /* Kontainer utama */
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        /* Judul */
+        h1 {
+            color: #2d3436;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Input teks */
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 30px;
+            margin-bottom: 15px;
+            border: 1px solid #dfe6e9;
+            border-radius: 5px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #0984e3;
+            box-shadow: 0 0 8px rgba(9, 132, 227, 0.5);
+            outline: none;
+        }
+
+        /* Tombol */
+        button {
+            background-color: #0984e3;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background-color: #74b9ff;
+            transform: scale(1.05);
+        }
+
+        /* Output hasil */
+        .output {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #dfe6e9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 40px;
+        }
+
+        /* Hasil shift */
+        .shift-result {
+            padding: 8px 0;
+            border-bottom: 1px solid #dfe6e9;
+        }
+
+        .shift-result:last-child {
+            border-bottom: none;
+        }
+
+        .shift-result strong {
+            color: #0984e3;
+        }
+
+        /* Responsivitas */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            input[type="text"] {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teks Sandi By Farid</h1>
+        <input type="text" id="inputText" placeholder="Masukkan Teks Anda Disini..." />
+        <button onclick="generateShifts()">Terjemahkan</button>
+        <div id="output" class="output"></div>
+    </div>
+
+    <script>
+        function caesarShift(text, shift) {
+            const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+            const alphabetUpper = alphabet.toUpperCase();
+
+            return text.split('').map(char => {
+                if (alphabet.includes(char)) {
+                    // Shifting untuk huruf kecil
+                    const newIndex = (alphabet.indexOf(char) + shift) % 26;
+                    return alphabet[newIndex];
+                } else if (alphabetUpper.includes(char)) {
+                    // Shifting untuk huruf besar
+                    const newIndex = (alphabetUpper.indexOf(char) + shift) % 26;
+                    return alphabetUpper[newIndex];
+                }
+                // Karakter non-alfabet tetap
+                return char;
+            }).join('');
+        }
+
+        function generateShifts() {
+            const text = document.getElementById('inputText').value;
+            const output = document.getElementById('output');
+            output.innerHTML = ''; // Bersihkan hasil sebelumnya
+
+            if (text.trim() === '') {
+                output.innerHTML = '<p>Please enter some text.</p>';
+                return;
+            }
+
+            for (let i = 0; i < 26; i++) {
+                const shiftedText = caesarShift(text, i);
+                const result = `<div class="shift-result"><strong>Shift ${i}:</strong> ${shiftedText}</div>`;
+                output.innerHTML += result;
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+<!-- Sebagian kode ini dibuat dengan bantuan ChatGPT, dan sebagian telah dimodifikasi oleh saya FARID MH pada April 2025 untuk mendesain serta menyesuaikan kebutuhan tugas -->

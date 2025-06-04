@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jadwal Jam Sekolah Kelas XI.6</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.8em;
+    }
+    table {
+      width: 100%;
+      max-width: 100%;
+      border-collapse: collapse;
+      margin: 0 auto;
+      background-color: white;
+      font-size: 0.9em;
+      overflow-x: auto;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 6px;
+      text-align: center;
+      min-width: 80px;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .highlight {
+      background-color: #d4edda !important;
+    }
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #666;
+    }
+    @media (max-width: 600px) {
+      th, td {
+        font-size: 0.7em;
+        padding: 5px 4px;
+      }
+      h1 {
+        font-size: 1.4em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Jadwal Jam Sekolah Kelas XI.6</h1>
+
+  <div style="overflow-x:auto;">
+    <table id="jadwal">
+      <thead>
+        <tr>
+          <th>Hari</th>
+          <th>Jam 1<br>(07.15 - 07.55)</th>
+          <th>Jam 2<br>(07.55 - 08.35)</th>
+          <th>Jam 3<br>(08.35 - 09.15)</th>
+          <th>Jam 4<br>(09.15 - 09.55)</th>
+          <th>Jam 4<br>(09.55 - 10.15)</th>
+          <th>Jam 5<br>(10.15 - 10.55)</th>
+          <th>Jam 6<br>(10.55 - 11.35)</th>
+          <th>Jam 7<br>(11.35 - 12.20)</th>
+          <th>Jam 8<br>(12.20 - 13.00)</th>
+          <th>Jam 9<br>(13.00 - 13.40)</th>
+          <th>Jam 10<br>(13.40 - 14.20)</th>
+          <th>Jam 11<br>(14.20 - 15.00)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Senin</td><td>Upacara</td><td>Sejarah</td><td>Sejarah</td><td>prakarya</td><td>Istirahat</td><td>prakarya</td><td>Fisika</td><td>Istirahat</td><td>Fisika</td><td>Informatika</td><td>Informatika</td><td>Informatika</td></tr>
+        <tr><td>Selasa</td><td>B.Inggris</td><td>B.Inggris</td><td>B.Inggris</td><td>PKN</td><td>Istirahat</td><td>PKN</td><td>Biologi</td><td>Istirahat</td><td>Biologi</td><td>Biologi</td><td>Agama</td><td>Agama</td></tr>
+        <tr><td>Rabu</td><td>Matematika</td><td>Matematika</td><td>Matematika</td><td>Fisika</td><td>Istirahat</td><td>Fisika</td><td>Fisika</td><td>Istirahat</td><td>Kimia</td><td>Kimia</td><td>Mulok</td><td>Mulok</td></tr>
+        <tr><td>Kamis</td><td>B.Indonesia</td><td>B.Indonesia</td><td>B.Indonesia</td><td>Seni Budaya</td><td>Istirahat</td><td>Seni Budaya</td><td>Kimia</td><td>Istirahat</td><td>Kimia</td><td>Kimia</td><td>Informatika</td><td>Informatika</td></tr>
+        <tr><td>Jumat</td><td>Senam Bersama</td><td>Penjaskes</td><td>Penjaskes</td><td>Penjaskes</td><td>Istirahat</td><td>Biologi</td><td>Biologi</td><td>Istirahat</td><td>P5</td><td>P5</td><td>P5</td><td>P5</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    Powered by <strong>Buslar and Farid</strong>
+  </footer>
+
+  <script>
+    const hariMap = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    const jamPelajaran = [
+      [7, 15, 7, 55],
+      [7, 55, 8, 35],
+      [8, 35, 9, 15],
+      [9, 15, 9, 55],
+      [9, 55, 10, 15],
+      [10, 15, 10, 55],
+      [10, 55, 11, 35],
+      [11, 35, 12, 20],
+      [12, 20, 13, 0],
+      [13, 0, 13, 40],
+      [13, 40, 14, 20],
+      [14, 20, 15, 0]
+    ];
+
+    const now = new Date();
+    const hariIni = hariMap[now.getDay()];
+    const jam = now.getHours();
+    const menit = now.getMinutes();
+    const sekarang = jam * 60 + menit;
+
+    let kolomSekarang = -1;
+    jamPelajaran.forEach((slot, index) => {
+      const [jamMulai, menitMulai, jamSelesai, menitSelesai] = slot;
+      const mulai = jamMulai * 60 + menitMulai;
+      const selesai = jamSelesai * 60 + menitSelesai;
+      if (sekarang >= mulai && sekarang < selesai) {
+        kolomSekarang = index + 1; // +1 karena kolom pertama adalah nama hari
+      }
+    });
+
+    const rows = document.querySelectorAll("#jadwal tbody tr");
+    rows.forEach(row => {
+      const cells = row.querySelectorAll("td");
+      if (cells[0].textContent.trim() === hariIni) {
+        cells[0].classList.add("highlight");
+        if (kolomSekarang >= 1 && kolomSekarang < cells.length) {
+          cells[kolomSekarang].classList.add("highlight");
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

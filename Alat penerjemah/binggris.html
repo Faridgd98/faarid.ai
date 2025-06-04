@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translator Inggris - Indonesia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        textarea {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 40px;
+        }
+        select, button {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        select {
+            background-color: #007bff;
+            color: white;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+        }
+    </style>
+    <script>
+        async function translateText() {
+            let text = document.getElementById("inputText").value;
+            let lang = document.getElementById("language").value;
+            let url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${lang}`;
+            
+            let response = await fetch(url);
+            let data = await response.json();
+            
+            document.getElementById("outputText").innerText = data.responseData.translatedText;
+        }
+    </script>
+</head>
+<body>
+    <h2>Translator Inggris - Indonesia</h2>
+    <textarea id="inputText" rows="4" cols="50" placeholder="Masukkan teks..."></textarea>
+    <br>
+    <select id="language">
+        <option value="en|id">Inggris ke Indonesia</option>
+        <option value="id|en">Indonesia ke Inggris</option>
+    </select>
+    <br>
+    <button onclick="translateText()">Terjemahkan</button>
+    <h3>Hasil:</h3>
+    <p id="outputText"></p>
+</body>
+</html>
+
+<!-- Sebagian kode ini dibuat dengan bantuan ChatGPT, dan sebagian telah dimodifikasi oleh saya FARID MH pada April 2025 untuk mendesain serta menyesuaikan kebutuhan tugas -->

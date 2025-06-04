@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Utama</title>
+    <!-- Link ke Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <style>
+        /* Menyusun video background */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Gaya untuk kontainer dan tombol */
+        .container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Judul */
+        .title {
+            font-size: 4rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        /* Efek animasi glow */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #3498db, 0 0 40px #3498db, 0 0 50px #3498db;
+            }
+            to {
+                text-shadow: 0 0 20px #74b9ff, 0 0 30px #74b9ff, 0 0 40px #74b9ff, 0 0 50px #74b9ff, 0 0 60px #74b9ff;
+            }
+        }
+
+        /* Gaya untuk tombol dengan ikon */
+        .button {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            font-size: 18px;
+            color: #fff;
+            background: linear-gradient(135deg, #007BFF, #00C6FF);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            width: 250px;
+            justify-content: center;
+        }
+
+        .button img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #0056b3, #0088cc);
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Versi di pojok kiri atas -->
+    <div class="version">Versi 1.0</div>
+
+    <!-- Video background -->
+    <video autoplay muted loop class="video-background">
+        <source src="mapback.mp4" type="video/mp4">
+        Browser Anda tidak mendukung video tag.
+    </video>
+
+    <!-- Konten Halaman -->
+    <div class="container">
+        <div class="title">Farid.ai Kriptografi</div>
+        
+        <a href="ciphertext.html" class="button">
+            <img src="ciphertext.png" alt="Ciphertext">
+            Ciphertext
+        </a>
+        <a href="morse.html" class="button">
+            <img src="morse.png" alt="Kode Morse">
+            Kode Morse
+        </a>
+        <a href="biner.html" class="button">
+            <img src="biner.jpg" alt="Kode Biner">
+            Kode Biner
+        </a>
+        <a href="ascii.html" class="button">
+            <img src="ascii.png" alt="Kode ASCII">
+            Kode ASCII
+        </a>
+        <a href="base64.html" class="button">
+            <img src="base64.png" alt="Kode Base64">
+            Kode Base 64
+        </a>
+        <a href="BarCode.html" class="button">
+            <img src="barcode.png" alt="Kode Base64">
+             BarCode 1 dimensi
+        </a>
+    </div>
+
+</body>
+</html>
+
+
+<!-- Sebagian kode ini dibuat dengan bantuan ChatGPT, dan sebagian telah dimodifikasi oleh saya FARID MH pada April 2025 untuk mendesain serta menyesuaikan kebutuhan tugas -->

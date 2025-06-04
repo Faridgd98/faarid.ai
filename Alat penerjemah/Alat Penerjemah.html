@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Utama</title>
+    <!-- Link ke Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <style>
+        /* Menyusun video background */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Gaya untuk kontainer dan tombol */
+        .container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; /* Tambahkan padding untuk memberi ruang di tepi */
+        }
+
+        /* Judul */
+        .title {
+            font-size: 4rem; /* Ukuran font lebih besar */
+            font-family: 'Orbitron', sans-serif; /* Font futuristik */
+            color: #fff;
+            margin-bottom: 20px; /* Jarak di bawah judul */
+            text-align: center;
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8); /* Bayangan teks untuk visibilitas */
+            letter-spacing: 2px; /* Jarak antar huruf */
+            animation: glow 1.5s infinite alternate; /* Efek animasi glow */
+        }
+
+        /* Efek animasi glow */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #3498db, 0 0 40px #3498db, 0 0 50px #3498db;
+            }
+            to {
+                text-shadow: 0 0 20px #74b9ff, 0 0 30px #74b9ff, 0 0 40px #74b9ff, 0 0 50px #74b9ff, 0 0 60px #74b9ff;
+            }
+        }
+
+        /* Gaya untuk tombol */
+        .button {
+    padding: 15px 30px;
+    font-size: 18px;
+    color: #fff;
+    background: linear-gradient(135deg, #007BFF, #00C6FF); /* Gradient warna biru */
+    border: none;
+    border-radius: 25px; /* Membuat tombol lebih bulat */
+    cursor: pointer;
+    margin: 10px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow untuk efek kedalaman */
+    transition: all 0.3s ease-in-out; /* Efek transisi */
+}
+
+.button:hover {
+    background: linear-gradient(135deg, #0056b3, #0088cc); /* Warna lebih gelap saat hover */
+    transform: scale(1.1); /* Efek membesar saat hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Shadow lebih besar */
+}
+
+.button:active {
+    transform: scale(0.95); /* Efek tombol tertekan */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow lebih kecil */
+}
+
+        
+    </style>
+</head>
+<body>
+    
+    <!-- Versi di pojok kiri atas -->
+    <div class="version">Versi 1.0</div>
+
+    <!-- Video background -->
+    <video autoplay muted loop class="video-background">
+        <source src="mapback.mp4" type="video/mp4">
+        Browser Anda tidak mendukung video tag.
+    </video>
+
+    <!-- Konten Halaman -->
+<div class="container">
+    <div class="title">Farid.ai Penerjemah</div>
+    
+    <a href="binggris.html" class="button">Terjemahan bahasa</a>
+    <a href="kriptografi/kriptografi.html" class="button">kriptografi</a>
+    
+    
+</div>
+
+
+</body>
+</html>
+
+<!-- Sebagian kode ini dibuat dengan bantuan ChatGPT, dan sebagian telah dimodifikasi oleh saya FARID MH pada April 2025 untuk mendesain serta menyesuaikan kebutuhan tugas -->

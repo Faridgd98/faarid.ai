@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konverter Teks ke ASCII</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background: linear-gradient(to right, #0d045c, #0d045c);
+            color: white;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin-bottom: 10px;
+            font-size: 30px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background: #52880b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0e3103;
+        }
+    </style>
+</head>
+<body>
+    <h2>Konverter Teks &lt;--&gt; ASCII by Farid</h2>
+    <textarea id="inputText" placeholder="Masukkan teks di sini..."></textarea><br>
+    <button onclick="convertToASCII()">Konversi ke ASCII</button>
+    <button onclick="convertToText()">Konversi ke Teks</button>
+    <br>
+    <textarea id="outputText" placeholder="Hasil akan muncul di sini..."></textarea>
+    
+    <script>
+        function convertToASCII() {
+            let text = document.getElementById("inputText").value;
+            let asciiCodes = text.split('').map(char => char.charCodeAt(0)).join(' ');
+            document.getElementById("outputText").value = asciiCodes;
+        }
+
+        function convertToText() {
+            let asciiCodes = document.getElementById("inputText").value.split(' ');
+            let text = asciiCodes.map(code => String.fromCharCode(parseInt(code))).join('');
+            document.getElementById("outputText").value = text;
+        }
+    </script>
+</body>
+</html>
+
+<!-- Sebagian kode ini dibuat dengan bantuan ChatGPT, dan sebagian telah dimodifikasi oleh saya FARID MH pada April 2025 untuk mendesain serta menyesuaikan kebutuhan tugas -->

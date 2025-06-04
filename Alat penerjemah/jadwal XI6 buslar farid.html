@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jadwal Vertikal XI.6</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.8em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      font-size: 0.9em;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px 6px;
+      text-align: center;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+    .highlight {
+      background-color: #d4edda !important;
+    }
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #666;
+    }
+    @media (max-width: 600px) {
+      th, td {
+        font-size: 0.7em;
+        padding: 6px 4px;
+      }
+      h1 {
+        font-size: 1.4em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Jadwal Jam Sekolah Kelas XI.6 By Buslar dan Farid</h1>
+
+  <div style="overflow-x:auto;">
+    <table id="jadwal">
+      <thead>
+        <tr>
+          <th>Jam</th>
+          <th>Senin</th>
+          <th>Selasa</th>
+          <th>Rabu</th>
+          <th>Kamis</th>
+          <th>Jumat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>07.15 - 07.55</td><td>Upacara</td><td>B.Inggris</td><td>Matematika</td><td>B.Indonesia</td><td>Senam Bersama</td></tr>
+        <tr><td>07.55 - 08.35</td><td>Sejarah</td><td>B.Inggris</td><td>Matematika</td><td>B.Indonesia</td><td>Penjaskes</td></tr>
+        <tr><td>08.35 - 09.15</td><td>Sejarah</td><td>B.Inggris</td><td>Matematika</td><td>B.Indonesia</td><td>Penjaskes</td></tr>
+        <tr><td>09.15 - 09.55</td><td>Prakarya</td><td>PKN</td><td>Fisika</td><td>Seni Budaya</td><td>Penjaskes</td></tr>
+        <tr><td>09.55 - 10.15</td><td>Istirahat</td><td>Istirahat</td><td>Istirahat</td><td>Istirahat</td><td>Istirahat</td></tr>
+        <tr><td>10.15 - 10.55</td><td>Prakarya</td><td>PKN</td><td>Fisika</td><td>Seni Budaya</td><td>Biologi</td></tr>
+        <tr><td>10.55 - 11.35</td><td>Fisika</td><td>Biologi</td><td>Fisika</td><td>Kimia</td><td>Biologi</td></tr>
+        <tr><td>11.35 - 12.20</td><td>Istirahat</td><td>Istirahat</td><td>Istirahat</td><td>Istirahat</td><td>Istirahat</td></tr>
+        <tr><td>12.20 - 13.00</td><td>Fisika</td><td>Biologi</td><td>Kimia</td><td>Kimia</td><td>P5</td></tr>
+        <tr><td>13.00 - 13.40</td><td>Informatika</td><td>Biologi</td><td>Kimia</td><td>Kimia</td><td>P5</td></tr>
+        <tr><td>13.40 - 14.20</td><td>Informatika</td><td>Agama</td><td>Mulok</td><td>Informatika</td><td>P5</td></tr>
+        <tr><td>14.20 - 15.00</td><td>Informatika</td><td>Agama</td><td>Mulok</td><td>Informatika</td><td>P5</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    Powered by <strong>Buslar and Farid</strong>
+  </footer>
+
+  <script>
+    const hariMap = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    const jamPelajaran = [
+      [7, 15, 7, 55],
+      [7, 55, 8, 35],
+      [8, 35, 9, 15],
+      [9, 15, 9, 55],
+      [9, 55, 10, 15],
+      [10, 15, 10, 55],
+      [10, 55, 11, 35],
+      [11, 35, 12, 20],
+      [12, 20, 13, 0],
+      [13, 0, 13, 40],
+      [13, 40, 14, 20],
+      [14, 20, 15, 0]
+    ];
+
+    const now = new Date();
+    const hariIndex = now.getDay();
+    const hariIni = hariMap[hariIndex];
+    const jam = now.getHours();
+    const menit = now.getMinutes();
+    const sekarang = jam * 60 + menit;
+
+    let barisSekarang = -1;
+    jamPelajaran.forEach((slot, index) => {
+      const [jm, mm, js, ms] = slot;
+      const mulai = jm * 60 + mm;
+      const selesai = js * 60 + ms;
+      if (sekarang >= mulai && sekarang < selesai) {
+        barisSekarang = index;
+      }
+    });
+
+    const jadwal = document.querySelector("#jadwal");
+    if (hariIndex >= 1 && hariIndex <= 5 && barisSekarang !== -1) {
+      const kolomHari = hariIndex; // 1 = Senin, 2 = Selasa, dst
+      const rows = jadwal.querySelectorAll("tbody tr");
+      const row = rows[barisSekarang];
+      const cells = row.querySelectorAll("td");
+      cells[0].classList.add("highlight"); // waktu
+      if (kolomHari < cells.length) {
+        cells[kolomHari].classList.add("highlight"); // mata pelajaran
+      }
+    }
+  </script>
+
+</body>
+</html>
